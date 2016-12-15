@@ -1,0 +1,26 @@
+{
+  "name": "showcaser",
+  "version": "0.1.0",
+  "description": "An implementation of the Material Design Showcase view that highlights any element on your page",
+  "main": "dist/showcaser.min.js",
+  "scripts": {
+    "prebuild": "npm run clean",
+    "build": "tsc -p src",
+    "clean": "rimraf dist",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "showcase",
+    "showcaser",
+    "material-design",
+    "material"
+  ],
+  "author": "Ian Schmitz <ianschmitz@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "raf": "^3.3.0",
+    "rimraf": "^2.5.4",
+    "tslint": "^4.0.2",
+    "typescript": "^2.1.4"
+  }
+}
