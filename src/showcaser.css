@@ -121,7 +121,7 @@
     .showcaser-button-container .showcaser-button {
         cursor: pointer;
         margin-top: 1em !important;
-        width: auto!important;
+        width: auto !important;
         padding: 10px 10px;
         border-radius: 5px;
         background-color: rgba(240,240,240,1);

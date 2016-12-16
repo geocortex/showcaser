@@ -16,7 +16,6 @@ function smoothscroll(scrollTo: number | string | Element, scrollDuration?: numb
         if (scrollToObj && typeof scrollToObj.getBoundingClientRect === "function") {
             scrollAmount = window.pageYOffset + scrollToObj.getBoundingClientRect().top;
         } else {
-            // TODO: improve error message
             throw new Error(`No element found with the selector ${scrollAmount}`);
         }
     }

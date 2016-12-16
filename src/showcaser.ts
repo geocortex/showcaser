@@ -1,3 +1,4 @@
+import "./showcaser.css";
 import Smoothscroll from "./smoothscroll";
 
 class Showcaser {
@@ -44,7 +45,7 @@ class Showcaser {
     }
 
     public static skipAll(): void {
-        // Clear out all remaining queued Showcases
+        // Clear out all remaining queued Showcaser items
         this._showcaseQueue = [];
 
         // Args gets cleared out in close() so we need to keep a reference to the skip callback function
@@ -55,6 +56,10 @@ class Showcaser {
         if (skip) {
             skip();
         }
+    }
+
+    public static get queueLength() {
+        return this._showcaseQueue.length;
     }
 
     private static _args: IShowcaseArgs;
@@ -72,10 +77,14 @@ class Showcaser {
 
         // Create all the DOM necessary to display the showcase
         let container = document.createElement("div");
-        container.className = "tm-showcaser-container";
+        let className = "showcaser-container";
+        if (args.options.longDelay) {
+            container.className = " showcaser-delay";
+        }
+        container.className = className;
 
         let showcaser = document.createElement("div");
-        showcaser.className = "tm-showcaser";
+        showcaser.className = "showcaser";
         if (!args.element) {
             showcaser.className += " full-screen";
         }
@@ -85,23 +94,23 @@ class Showcaser {
         showcaser.appendChild(textContainer);
 
         let textElement = document.createElement("div");
-        textElement.className = "tm-showcaser-text";
+        textElement.className = "showcaser-text";
         textElement.textContent = args.text;
         textContainer.appendChild(textElement);
 
         let buttonContainer = document.createElement("div");
-        buttonContainer.className = "tm-showcaser-button-container";
+        buttonContainer.className = "showcaser-button-container";
         textContainer.appendChild(buttonContainer);
 
         let showcaserButton = document.createElement("button");
-        showcaserButton.className = "tm-showcaser-button waves-effect waves-light btn";
+        showcaserButton.className = "showcaser-button waves-effect waves-light btn";
         showcaserButton.textContent = args.options.buttonText;
         showcaserButton.onclick = event => { this._nextButtonClick(event); };
         buttonContainer.appendChild(showcaserButton);
 
         if (args.options.allowSkip) {
             let skipButton = document.createElement("div");
-            skipButton.className = "tm-showcaser-skip";
+            skipButton.className = "showcaser-skip";
             skipButton.onclick = event => { this._skipClick(event); };
             skipButton.textContent = args.options.skipText || "Skip";
             buttonContainer.appendChild(skipButton);
@@ -183,18 +192,29 @@ class Showcaser {
 
             let bufferPx = this._args.options.scrollBufferPx || 15;
 
+            const isElAboveViewport = offsetTop - bufferPx < this._getWindowScrollPosition();
+            const isElBelowViewport = offsetTop + bufferPx + rect.height >
+                this._getWindowScrollPosition() + (window.innerHeight || document.documentElement.clientHeight);
+
+            const isScrolledToTop = window.pageYOffset === 0;
+            const isScrolledToBottom = (window.innerHeight + window.pageYOffset) >= document.body.offsetHeight;
+
             // Check if we need to scroll page to be able to see the element. Scroll if necessary
-            if (offsetTop - bufferPx < this._getWindowScrollPosition()) {
-                // Above viewport, scroll up
-                const scrollAmount = offsetTop - bufferPx;
-                Smoothscroll(scrollAmount, 500, () => this._positionAndShow);
+            // We check the page's scroll position as we use a 'scrollBuffer' to give additional space
+            // between the element and the viewport. If the page can't be scrolled, 
+            // there's no reason to wait 500ms.
+            if (isElAboveViewport && isElBelowViewport) {
+                // Overflows above and below viewport ¯\_(ツ)_/¯
+                this._positionAndShow();
             }
-            else if (offsetTop + bufferPx + rect.height >
-                this._getWindowScrollPosition() + (window.innerHeight || document.documentElement.clientHeight)) {
-                // Below viewport, scroll down
+            else if (isElAboveViewport && !isScrolledToTop) {
+                const scrollAmount = offsetTop - bufferPx;
+                Smoothscroll(scrollAmount, 500, () => this._positionAndShow());
+            }
+            else if (isElBelowViewport && !isScrolledToBottom) {
                 const scrollAmount = offsetTop - (window.innerHeight || document.documentElement.clientHeight)
                     + rect.height + bufferPx;
-                Smoothscroll(scrollAmount, 500, () => this._positionAndShow);
+                Smoothscroll(scrollAmount, 500, () => this._positionAndShow());
             }
             else {
                 // Fully visible
@@ -208,7 +228,7 @@ class Showcaser {
 
     private static _positionAndShow(): void {
         // If the user closes the showcase before scroll happens (delayed by a timeout)
-        // then args are gonna be null
+        // then args are gonna be null as the showcase has already been closed
         if (!this._args) {
             return;
         }
@@ -258,32 +278,11 @@ class Showcaser {
         if (options.position) {
             // Default is:
             // horizontal: "right"
-            // vertical: "center"
+            // vertical: "middle"
             let position = options.position;
 
-            let horizontal;
-
-            if (position.horizontal === "left") {
-                horizontal = "left";
-            }
-            else if (position.horizontal === "center") {
-                horizontal = "center";
-            }
-            else {
-                horizontal = "right";
-            }
-
-            let vertical;
-
-            if (position.vertical === "top") {
-                vertical = "top";
-            }
-            else if (position.vertical === "bottom") {
-                vertical = "bottom";
-            }
-            else {
-                vertical = "middle";
-            }
+            const horizontal = position.horizontal || "right";
+            const vertical = position.vertical || "middle";
 
             this._applyPositionStyling(vertical, horizontal);
         }
@@ -320,17 +319,17 @@ class Showcaser {
     }
 
     private static _applyPositionStyling(vertical: string, horizontal: string): void {
-        let baseClassName = "tm-showcaser-text-container";
+        let baseClassName = "showcaser-text-container";
 
         this._textContainer.className = `${baseClassName} ${vertical} ${horizontal}`;
     }
 
     private static _trapBodyScroll(): void {
-        document.body.className += " tm-showcaser-trap-scroll";
+        document.body.className += " showcaser-trap-scroll";
     }
 
     private static _releaseTrappedBodyScroll(): void {
-        document.body.className = document.body.className.replace(/(?:^|\s)tm-showcaser-trap-scroll(?!\S)/g, "");
+        document.body.className = document.body.className.replace(/(?:^|\s)showcaser-trap-scroll(?!\S)/g, "");
     }
 
     private static _startShowcase(args: IShowcaseArgs): void {
@@ -372,8 +371,7 @@ class Showcaser {
             options.buttonText = "Got it";
         }
 
-        // == null is same as null or undefined
-        if (options.allowSkip == null) {
+        if (typeof options.allowSkip !== "boolean") {
             options.allowSkip = true;
         }
 
@@ -396,6 +394,7 @@ export interface IShowcaseOptions {
     before?: () => void;
     buttonText?: string;
     close?: () => void;
+    longDelay?: boolean;
     paddingPx?: number;
     position?: {
         horizontal: "right" | "center" | "left";

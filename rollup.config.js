@@ -11,7 +11,7 @@ import cssnano from 'cssnano';
 export default {
     entry: 'src/showcaser.js',
     dest: 'dist/showcaser.js',
-    format: 'iife',
+    format: 'umd',
     moduleName: 'Showcaser',
     plugins: [
         postcss({

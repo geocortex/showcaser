@@ -1,5 +1,8 @@
-var Showcaser = (function () {
-'use strict';
+(function (global, factory) {
+	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+	typeof define === 'function' && define.amd ? define(factory) :
+	(global.Showcaser = factory());
+}(this, (function () { 'use strict';
 
 function __$styleInject(css, returnValue) {
   if (typeof document === 'undefined') {
@@ -153,7 +156,6 @@ function smoothscroll(scrollTo, scrollDuration, finishCallback) {
             scrollAmount = window.pageYOffset + scrollToObj.getBoundingClientRect().top;
         }
         else {
-            // TODO: improve error message
             throw new Error("No element found with the selector " + scrollAmount);
         }
     }
@@ -502,4 +504,4 @@ Showcaser._showcaseQueue = [];
 
 return Showcaser;
 
-}());
+})));

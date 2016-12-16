@@ -2,8 +2,8 @@
 node_modules
 
 # production
-build
 src/**/*.js
+src/**/*.d.ts
 
 # misc
 .DS_Store
