@@ -5,9 +5,13 @@
   "main": "dist/showcaser.min.js",
   "scripts": {
     "prebuild": "npm run clean",
-    "build": "tsc -p src && rollup -c",
+    "build": "tsc -p src && rollup -c && uglifyjs dist/showcaser.js -o dist/showcaser.min.js",
     "clean": "rimraf dist build",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/latitudegeo/showcaser.git"
   },
   "keywords": [
     "showcase",
@@ -15,16 +19,25 @@
     "material-design",
     "material"
   ],
-  "author": "Ian Schmitz <ianschmitz@gmail.com>",
+  "author": "Latitude Geographics",
+  "contributors": [
+    {
+      "name": "Ian Schmitz",
+      "email": "ianschmitz@gmail.com",
+      "url": "https://github.com/ianschmitz"
+    }
+  ],
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "raf": "^3.3.0"
+  },
   "devDependencies": {
-    "raf": "^3.3.0",
     "rimraf": "^2.5.4",
     "rollup": "^0.37.0",
     "rollup-plugin-commonjs": "^6.0.0",
     "rollup-plugin-node-resolve": "^2.0.0",
     "tslint": "^4.0.2",
-    "typescript": "^2.1.4"
+    "typescript": "^2.1.4",
+    "uglify-js": "^2.7.5"
   }
 }
