@@ -28,14 +28,19 @@
     }
   ],
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/latitudegeo/showcaser/issues"
+  },
   "dependencies": {
     "raf": "^3.3.0"
   },
   "devDependencies": {
+    "cssnano": "^3.9.1",
     "rimraf": "^2.5.4",
     "rollup": "^0.37.0",
     "rollup-plugin-commonjs": "^6.0.0",
     "rollup-plugin-node-resolve": "^2.0.0",
+    "rollup-plugin-postcss": "^0.2.0",
     "tslint": "^4.0.2",
     "typescript": "^2.1.4",
     "uglify-js": "^2.7.5"

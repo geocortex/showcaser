@@ -3,7 +3,7 @@ node_modules
 
 # production
 build
-dist
+src/**/*.js
 
 # misc
 .DS_Store
