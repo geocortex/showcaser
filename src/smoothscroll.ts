@@ -12,16 +12,15 @@ function smoothscroll(scrollTo: number | string | Element, scrollDuration?: numb
             // Assuming this is a selector we can use to find an element
             scrollToObj = document.querySelector(scrollTo);
         }
+        else {
+            scrollToObj = scrollTo;
+        }
 
         if (scrollToObj && typeof scrollToObj.getBoundingClientRect === "function") {
             scrollAmount = window.pageYOffset + scrollToObj.getBoundingClientRect().top;
         } else {
-            throw new Error(`No element found with the selector ${scrollAmount}`);
+            throw new Error(`No element found with the selector "${scrollTo}"`);
         }
-    }
-
-    if (scrollTo instanceof Element) {
-        scrollAmount = window.pageYOffset + scrollTo.getBoundingClientRect().top;
     }
 
     // Set a default for the duration

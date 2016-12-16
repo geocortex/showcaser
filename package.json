@@ -16,7 +16,7 @@
   "keywords": [
     "showcase",
     "showcaser",
-    "material-design",
+    "material design",
     "material",
     "typescript",
     "javascript"
@@ -33,11 +33,10 @@
   "bugs": {
     "url": "https://github.com/latitudegeo/showcaser/issues"
   },
-  "dependencies": {
-    "raf": "^3.3.0"
-  },
+  "dependencies": {},
   "devDependencies": {
     "cssnano": "^3.9.1",
+    "raf": "^3.3.0",
     "rimraf": "^2.5.4",
     "rollup": "^0.37.0",
     "rollup-plugin-commonjs": "^6.0.0",
