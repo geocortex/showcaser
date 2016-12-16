@@ -20,7 +20,7 @@ function __$styleInject(css, returnValue) {
   head.appendChild(style);
   return returnValue;
 }
-__$styleInject(".showcaser-trap-scroll{overflow:hidden}.showcaser-container{position:absolute;opacity:0;top:0;left:0;bottom:0;right:0;z-index:1}.showcaser-container .showcaser-delay{transition-property:opacity;transition-timing-function:ease-in-out;transition-duration:1s;transition-delay:1.5s}.showcaser{position:absolute;border:1px solid #fff;box-shadow:0 0 0 99999px rgba(0,0,0,.65),inset 0 2px 16px rgba(0,0,0,.3)}.showcaser.full-screen{width:0;height:0;left:50%;top:50%;border:none}.showcaser-text-container{position:absolute;width:32em;max-width:75vw}.showcaser-text-container.right{left:100%;padding-left:2em}.showcaser-text-container.center{left:50%;-webkit-transform:translateX(-50%);transform:translateX(-50%)}.showcaser-text-container.left{text-align:right;right:100%;padding-right:1em}.showcaser-text-container.bottom{top:100%;padding-top:1em}.showcaser-text-container.top{top:0;-webkit-transform:translateY(-100%);transform:translateY(-100%);padding-bottom:1em}.showcaser-text-container.middle{top:50%;-webkit-transform:translateY(-50%);transform:translateY(-50%)}.showcaser-text-container.center.middle{top:50%;left:50%;-webkit-transform:translate(-50%,-50%);transform:translate(-50%,-50%)}.showcaser-text-container.center.top{top:0;left:50%;-webkit-transform:translate(-50%,-100%);transform:translate(-50%,-100%)}.showcaser-text{color:#fff;font-size:1.3em;font-weight:400;letter-spacing:.05em}.showcaser-button-container{display:inline-block;position:relative;width:100%;margin-top:.5em;text-align:right}.showcaser-button-container .showcaser-button{cursor:pointer;margin-top:1em!important;width:auto!important;padding:10px;border-radius:5px;background-color:#f0f0f0;line-height:1;letter-spacing:.05em;font-size:1rem;transition:background-color .3s,color .3s}.showcaser-button-container .showcaser-button:hover{background-color:#197dc8;color:#fff;transition:background-color .3s,color .3s}.showcaser-button-container .showcaser-skip{color:#fff;cursor:pointer;left:100%;bottom:.3em;margin-left:1em;white-space:nowrap;text-decoration:underline;line-height:1.5;display:inline;font-size:1rem}.showcaser-button-container .showcaser-skip:hover{text-decoration:none}.showcaser-text-container.left .showcaser-skip{right:100%;left:auto;margin-right:1em}",undefined);
+__$styleInject(".showcaser-trap-scroll{overflow:hidden}.showcaser-container{position:absolute;opacity:0;top:0;left:0;bottom:0;right:0;z-index:1}.showcaser-container .showcaser-delay{-webkit-transition-property:opacity;transition-property:opacity;-webkit-transition-timing-function:ease-in-out;transition-timing-function:ease-in-out;-webkit-transition-duration:1s;transition-duration:1s;-webkit-transition-delay:1.5s;transition-delay:1.5s}.showcaser{position:absolute;border:1px solid #fff;box-shadow:0 0 0 99999px rgba(0,0,0,.65),inset 0 2px 16px rgba(0,0,0,.3)}.showcaser.full-screen{width:0;height:0;left:50%;top:50%;border:none}.showcaser-text-container{position:absolute;width:32em;max-width:75vw}.showcaser-text-container.right{left:100%;padding-left:2em}.showcaser-text-container.center{left:50%;-webkit-transform:translateX(-50%);transform:translateX(-50%);text-align:center}.showcaser-text-container.left{text-align:right;right:100%;padding-right:2em}.showcaser-text-container.bottom{top:100%;padding-top:2em}.showcaser-text-container.top{top:0;-webkit-transform:translateY(-100%);transform:translateY(-100%);padding-bottom:1em}.showcaser-text-container.middle{top:50%;-webkit-transform:translateY(-50%);transform:translateY(-50%)}.showcaser-text-container.center.middle{top:50%;left:50%;-webkit-transform:translate(-50%,-50%);transform:translate(-50%,-50%)}.showcaser-text-container.center.top{top:0;left:50%;-webkit-transform:translate(-50%,-100%);transform:translate(-50%,-100%)}.showcaser-text{color:#fff;font-size:1.2em;letter-spacing:.05em}.showcaser-button-container{position:relative;margin-top:.5em}.showcaser-button{background:0 0;border:none;border-radius:2px;color:#fff;position:relative;height:2.25em;line-height:2.25em;margin:0;min-width:4em;padding:0 1em;display:inline-block;font-family:Roboto,sans-serif;font-size:1em;font-weight:500;text-transform:uppercase;letter-spacing:0;overflow:hidden;will-change:box-shadow;-webkit-transition:box-shadow .2s cubic-bezier(.4,0,1,1),background-color .2s cubic-bezier(.4,0,.2,1),color .2s cubic-bezier(.4,0,.2,1);transition:box-shadow .2s cubic-bezier(.4,0,1,1),background-color .2s cubic-bezier(.4,0,.2,1),color .2s cubic-bezier(.4,0,.2,1);outline:none;cursor:pointer;text-decoration:none;text-align:center;vertical-align:middle}.showcaser-button:hover{background-color:hsla(0,0%,62%,.2)}.showcaser-button:focus:not(:active){background-color:rgba(0,0,0,.12)}.showcaser-button:active{background-color:hsla(0,0%,62%,.4)}.showcaser-skip{color:#fff;cursor:pointer;left:100%;bottom:.3em;margin-left:2em;white-space:nowrap;line-height:1.5;display:inline;font-size:.9em;vertical-align:middle}.showcaser-text-container.left .showcaser-skip{right:100%;left:auto}",undefined);
 
 var commonjsGlobal = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
@@ -152,15 +152,15 @@ function smoothscroll(scrollTo, scrollDuration, finishCallback) {
             // Assuming this is a selector we can use to find an element
             scrollToObj = document.querySelector(scrollTo);
         }
+        else {
+            scrollToObj = scrollTo;
+        }
         if (scrollToObj && typeof scrollToObj.getBoundingClientRect === "function") {
             scrollAmount = window.pageYOffset + scrollToObj.getBoundingClientRect().top;
         }
         else {
-            throw new Error("No element found with the selector " + scrollAmount);
+            throw new Error("No element found with the selector \"" + scrollTo + "\"");
         }
-    }
-    if (scrollTo instanceof Element) {
-        scrollAmount = window.pageYOffset + scrollTo.getBoundingClientRect().top;
     }
     // Set a default for the duration
     if (typeof scrollDuration !== "number" || scrollDuration < 0) {
@@ -269,7 +269,7 @@ var Showcaser = (function () {
         showcaser.appendChild(textContainer);
         var textElement = document.createElement("div");
         textElement.className = "showcaser-text";
-        textElement.textContent = args.text;
+        textElement.innerHTML = args.text;
         textContainer.appendChild(textElement);
         var buttonContainer = document.createElement("div");
         buttonContainer.className = "showcaser-button-container";

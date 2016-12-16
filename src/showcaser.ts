@@ -95,7 +95,7 @@ class Showcaser {
 
         let textElement = document.createElement("div");
         textElement.className = "showcaser-text";
-        textElement.textContent = args.text;
+        textElement.innerHTML = args.text;
         textContainer.appendChild(textElement);
 
         let buttonContainer = document.createElement("div");

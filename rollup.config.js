@@ -7,6 +7,7 @@ import postcss from 'rollup-plugin-postcss';
 
 // PostCSS plugins
 import cssnano from 'cssnano';
+import autoprefixer from 'autoprefixer';
 
 export default {
     entry: 'src/showcaser.js',
@@ -16,6 +17,7 @@ export default {
     plugins: [
         postcss({
             plugins: [
+                autoprefixer(),
                 cssnano()
             ],
             extensions: ['.css']

@@ -1,1 +1,1 @@
-# Showcaser
+# Showcaser - Material Design Showcase View for the web
