@@ -1,4 +1,4 @@
-import smoothscroll from "./smoothscroll";
+import Smoothscroll from "./smoothscroll";
 
 class Showcaser {
     public static showcase(element: HTMLElement, text: string, options?: IShowcaseOptions): void {
@@ -187,14 +187,14 @@ class Showcaser {
             if (offsetTop - bufferPx < this._getWindowScrollPosition()) {
                 // Above viewport, scroll up
                 const scrollAmount = offsetTop - bufferPx;
-                smoothscroll(scrollAmount, 500, () => this._positionAndShow);
+                Smoothscroll(scrollAmount, 500, () => this._positionAndShow);
             }
             else if (offsetTop + bufferPx + rect.height >
                 this._getWindowScrollPosition() + (window.innerHeight || document.documentElement.clientHeight)) {
                 // Below viewport, scroll down
                 const scrollAmount = offsetTop - (window.innerHeight || document.documentElement.clientHeight)
                     + rect.height + bufferPx;
-                smoothscroll(scrollAmount, 500, () => this._positionAndShow);
+                Smoothscroll(scrollAmount, 500, () => this._positionAndShow);
             }
             else {
                 // Fully visible

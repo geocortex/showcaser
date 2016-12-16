@@ -1,9 +1,6 @@
 import raf from "raf";
 
 function smoothscroll(scrollTo: number | string | Element, scrollDuration?: number, finishCallback?: Function) {
-    this._addRAFPolyfillIfNeeded();
-    this._addPerfNowPolyfillIfNeeded();
-
     // Edited from: https://gist.github.com/joshcanhelp/a3a669df80898d4097a1e2c01dea52c1
 
     let scrollAmount = 0;
