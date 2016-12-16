@@ -2,11 +2,12 @@
   "name": "showcaser",
   "version": "0.1.0",
   "description": "An implementation of the Material Design Showcase view that highlights any element on your page",
-  "main": "dist/showcaser.min.js",
+  "main": "dist/showcaser.js",
+  "types": "dist/showcaser.d.ts",
   "scripts": {
     "prebuild": "npm run clean",
-    "build": "tsc -p src && rollup -c && uglifyjs dist/showcaser.js -o dist/showcaser.min.js",
-    "clean": "rimraf dist build",
+    "build": "tsc -p src && rollup -c && uglifyjs dist/showcaser.js -o dist/showcaser.min.js && copyfiles -f src/showcaser.d.ts dist",
+    "clean": "rimraf dist",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -35,6 +36,8 @@
   },
   "dependencies": {},
   "devDependencies": {
+    "autoprefixer": "^6.5.4",
+    "copyfiles": "^1.0.0",
     "cssnano": "^3.9.1",
     "raf": "^3.3.0",
     "rimraf": "^2.5.4",

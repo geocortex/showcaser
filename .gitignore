@@ -3,7 +3,6 @@ node_modules
 
 # production
 src/**/*.js
-src/**/*.d.ts
 
 # misc
 .DS_Store

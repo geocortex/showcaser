@@ -3,7 +3,7 @@
         "allowJs": false,
         "module": "es2015",
         "sourceMap": false,
-        "declaration": true,
+        "declaration": false,
         "target": "es5",
         "moduleResolution": "node"
     }
