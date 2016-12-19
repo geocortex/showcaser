@@ -212,7 +212,7 @@ var Showcaser = (function () {
         }
     };
     Showcaser.close = function () {
-        this._cancelCheckInterval();
+        this._cancelCheckPositionInterval();
         if (this._container) {
             document.body.removeChild(this._container);
         }
@@ -303,13 +303,13 @@ var Showcaser = (function () {
         return navigator.vendor && navigator.vendor.indexOf("Apple") > -1 &&
             navigator.userAgent && !navigator.userAgent.match("CriOS");
     };
-    Showcaser._setupCheckInterval = function () {
+    Showcaser._setupCheckPositionInterval = function () {
         var _this = this;
-        if (this._args.options.positionTracker && this._args.element && !this._checkIntervalToken) {
-            this._checkIntervalToken = setInterval(function () {
+        if (this._args.options.positionTracker && this._args.element && !this._checkPositionIntervalToken) {
+            this._checkPositionIntervalToken = setInterval(function () {
                 // TODO: Doesn't support resizing the window vertically if the element's top/bottom haven't changed.
                 // We should be smarter and check if it's still visible in the viewport
-                var newPosition = _this._args.element.getBoundingClientRect();
+                var newPosition = _this._getElementPosition(_this._args.element);
                 var lastPosition = _this._lastPosition;
                 if (newPosition.top !== lastPosition.top ||
                     newPosition.right !== lastPosition.right ||
@@ -320,20 +320,17 @@ var Showcaser = (function () {
             }, 200);
         }
     };
-    Showcaser._cancelCheckInterval = function () {
-        if (this._checkIntervalToken) {
-            clearInterval(this._checkIntervalToken);
-            this._checkIntervalToken = null;
+    Showcaser._cancelCheckPositionInterval = function () {
+        if (this._checkPositionIntervalToken) {
+            clearInterval(this._checkPositionIntervalToken);
+            this._checkPositionIntervalToken = null;
         }
-    };
-    Showcaser._getWindowScrollPosition = function () {
-        return window.pageYOffset;
     };
     Showcaser._isElementVisible = function (elem) {
         return !!(elem.offsetWidth || elem.offsetHeight || elem.getClientRects().length);
     };
-    Showcaser._getElementPosition = function (elemL) {
-        return elemL.getBoundingClientRect();
+    Showcaser._getElementPosition = function (elem) {
+        return elem.getBoundingClientRect();
     };
     Showcaser._scrollAndEnable = function () {
         var _this = this;
@@ -347,10 +344,11 @@ var Showcaser = (function () {
                 this.close();
                 return;
             }
+            var windowScrollPosition = window.pageYOffset;
             var bufferPx = this._args.options.scrollBufferPx || 15;
-            var isElAboveViewport = offsetTop - bufferPx < this._getWindowScrollPosition();
+            var isElAboveViewport = offsetTop - bufferPx < windowScrollPosition;
             var isElBelowViewport = offsetTop + bufferPx + rect.height >
-                this._getWindowScrollPosition() + (window.innerHeight || document.documentElement.clientHeight);
+                windowScrollPosition + (window.innerHeight || document.documentElement.clientHeight);
             var isScrolledToTop = window.pageYOffset === 0;
             var isScrolledToBottom = (window.innerHeight + window.pageYOffset) >= document.body.offsetHeight;
             // Check if we need to scroll page to be able to see the element. Scroll if necessary
@@ -388,7 +386,7 @@ var Showcaser = (function () {
         var options = this._args.options;
         var element = this._args.element;
         if (element) {
-            var rect = this._lastPosition = element.getBoundingClientRect();
+            var rect = this._lastPosition = this._getElementPosition(element);
             // Element has no dimensions
             if (!this._isElementVisible(element)) {
                 console.warn("Showcaser: Element not visible", this._args.element);
@@ -418,7 +416,7 @@ var Showcaser = (function () {
                 this._showcaser.style.left = Math.round(rect.left - padding / 2) + "px";
             }
         }
-        // User-defined position
+        // User-defined text position
         if (options.position) {
             // Default is:
             // horizontal: "right"
@@ -433,7 +431,7 @@ var Showcaser = (function () {
             var vertical = "top";
             var horizontal = "center";
             this._applyPositionStyling(vertical, horizontal);
-            var textElRect = this._textContainer.getBoundingClientRect();
+            var textElRect = this._getElementPosition(this._textContainer);
             // Vertical check: bleeds out from the top
             if (textElRect.top < 0) {
                 vertical = "bottom";
@@ -448,11 +446,10 @@ var Showcaser = (function () {
             this._applyPositionStyling(vertical, horizontal);
         }
         this._container.style.opacity = "1";
-        this._setupCheckInterval();
+        this._setupCheckPositionInterval();
     };
     Showcaser._applyPositionStyling = function (vertical, horizontal) {
-        var baseClassName = "showcaser-text-container";
-        this._textContainer.className = baseClassName + " " + vertical + " " + horizontal;
+        this._textContainer.className = "showcase-text-container " + vertical + " " + horizontal;
     };
     Showcaser._trapBodyScroll = function () {
         document.body.className += " showcaser-trap-scroll";
@@ -477,6 +474,9 @@ var Showcaser = (function () {
         return false;
     };
     Showcaser._sanitizeArgs = function (element, text, options) {
+        if (!(element instanceof HTMLElement)) {
+            throw new Error("Must specify a valid HTMLElement");
+        }
         if (!text) {
             throw new Error("Must specify text to showcase");
         }

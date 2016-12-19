@@ -3,7 +3,7 @@ import Smoothscroll from "./smoothscroll";
 
 class Showcaser {
     public static showcase(element: HTMLElement, text: string, options?: IShowcaseOptions): void {
-        let args = this._sanitizeArgs(element, text, options);
+        const args = this._sanitizeArgs(element, text, options);
 
         if (!args) {
             // Sanitizing failed. Can't continue on with this part of the showcase
@@ -19,7 +19,7 @@ class Showcaser {
     }
 
     public static close(): void {
-        this._cancelCheckInterval();
+        this._cancelCheckPositionInterval();
 
         if (this._container) {
             document.body.removeChild(this._container);
@@ -39,7 +39,7 @@ class Showcaser {
         this._lastPosition = null;
 
         if (this._showcaseQueue.length) {
-            let nextItem = this._showcaseQueue.shift();
+            const nextItem = this._showcaseQueue.shift();
             this._startShowcase(nextItem);
         }
     }
@@ -49,7 +49,7 @@ class Showcaser {
         this._showcaseQueue = [];
 
         // Args gets cleared out in close() so we need to keep a reference to the skip callback function
-        let skip = this._args.options.skip;
+        const skip = this._args.options.skip;
 
         this.close();
 
@@ -69,47 +69,47 @@ class Showcaser {
     private static _showcaseQueue: IShowcaseArgs[] = [];
     private static _isVisible: boolean;
     private static _lastPosition: ClientRect;
-    private static _checkIntervalToken: any;
+    private static _checkPositionIntervalToken: any;
 
     private static _start(args: IShowcaseArgs): void {
         this._args = args;
         this._isVisible = true;
 
         // Create all the DOM necessary to display the showcase
-        let container = document.createElement("div");
-        let className = "showcaser-container";
+        const container = document.createElement("div");
+        const className = "showcaser-container";
         if (args.options.longDelay) {
             container.className = " showcaser-delay";
         }
         container.className = className;
 
-        let showcaser = document.createElement("div");
+        const showcaser = document.createElement("div");
         showcaser.className = "showcaser";
         if (!args.element) {
             showcaser.className += " full-screen";
         }
         container.appendChild(showcaser);
 
-        let textContainer = document.createElement("div");
+        const textContainer = document.createElement("div");
         showcaser.appendChild(textContainer);
 
-        let textElement = document.createElement("div");
+        const textElement = document.createElement("div");
         textElement.className = "showcaser-text";
         textElement.innerHTML = args.text;
         textContainer.appendChild(textElement);
 
-        let buttonContainer = document.createElement("div");
+        const buttonContainer = document.createElement("div");
         buttonContainer.className = "showcaser-button-container";
         textContainer.appendChild(buttonContainer);
 
-        let showcaserButton = document.createElement("button");
+        const showcaserButton = document.createElement("button");
         showcaserButton.className = "showcaser-button waves-effect waves-light btn";
         showcaserButton.textContent = args.options.buttonText;
         showcaserButton.onclick = event => { this._nextButtonClick(event); };
         buttonContainer.appendChild(showcaserButton);
 
         if (args.options.allowSkip) {
-            let skipButton = document.createElement("div");
+            const skipButton = document.createElement("div");
             skipButton.className = "showcaser-skip";
             skipButton.onclick = event => { this._skipClick(event); };
             skipButton.textContent = args.options.skipText || "Skip";
@@ -119,7 +119,7 @@ class Showcaser {
         // Adding a border-radius breaks the box-shadow background on Safari for handheld/tablet and Mac
         if (!this._isSafari()) {
             // TODO: Use CSS class instead of inline style
-            let radiusString = (args.options.shape === "circle" ? "50%" : "5px");
+            const radiusString = (args.options.shape === "circle" ? "50%" : "5px");
             showcaser.style.borderRadius = radiusString;
         }
 
@@ -138,14 +138,14 @@ class Showcaser {
             navigator.userAgent && !navigator.userAgent.match("CriOS");
     }
 
-    private static _setupCheckInterval(): void {
-        if (this._args.options.positionTracker && this._args.element && !this._checkIntervalToken) {
-            this._checkIntervalToken = setInterval(() => {
+    private static _setupCheckPositionInterval(): void {
+        if (this._args.options.positionTracker && this._args.element && !this._checkPositionIntervalToken) {
+            this._checkPositionIntervalToken = setInterval(() => {
                 // TODO: Doesn't support resizing the window vertically if the element's top/bottom haven't changed.
                 // We should be smarter and check if it's still visible in the viewport
 
-                let newPosition = this._args.element.getBoundingClientRect();
-                let lastPosition = this._lastPosition;
+                const newPosition = this._getElementPosition(this._args.element);
+                const lastPosition = this._lastPosition;
 
                 if (newPosition.top !== lastPosition.top ||
                     newPosition.right !== lastPosition.right ||
@@ -157,31 +157,27 @@ class Showcaser {
         }
     }
 
-    private static _cancelCheckInterval(): void {
-        if (this._checkIntervalToken) {
-            clearInterval(this._checkIntervalToken);
-            this._checkIntervalToken = null;
+    private static _cancelCheckPositionInterval(): void {
+        if (this._checkPositionIntervalToken) {
+            clearInterval(this._checkPositionIntervalToken);
+            this._checkPositionIntervalToken = null;
         }
-    }
-
-    private static _getWindowScrollPosition() {
-        return window.pageYOffset;
     }
 
     private static _isElementVisible(elem: HTMLElement) {
         return !!(elem.offsetWidth || elem.offsetHeight || elem.getClientRects().length);
     }
 
-    private static _getElementPosition(elemL: HTMLElement) {
-        return elemL.getBoundingClientRect();
+    private static _getElementPosition(elem: HTMLElement) {
+        return elem.getBoundingClientRect();
     }
 
     private static _scrollAndEnable(): void {
         if (this._args.element) {
-            let element = this._args.element;
+            const element = this._args.element;
             const rect = this._getElementPosition(element);
 
-            let offsetTop = rect.top;
+            const offsetTop = rect.top;
 
             // Make sure element is visible
             if (!this._isElementVisible(element)) {
@@ -190,11 +186,12 @@ class Showcaser {
                 return;
             }
 
-            let bufferPx = this._args.options.scrollBufferPx || 15;
+            const windowScrollPosition = window.pageYOffset;
+            const bufferPx = this._args.options.scrollBufferPx || 15;
 
-            const isElAboveViewport = offsetTop - bufferPx < this._getWindowScrollPosition();
+            const isElAboveViewport = offsetTop - bufferPx < windowScrollPosition;
             const isElBelowViewport = offsetTop + bufferPx + rect.height >
-                this._getWindowScrollPosition() + (window.innerHeight || document.documentElement.clientHeight);
+                windowScrollPosition + (window.innerHeight || document.documentElement.clientHeight);
 
             const isScrolledToTop = window.pageYOffset === 0;
             const isScrolledToBottom = (window.innerHeight + window.pageYOffset) >= document.body.offsetHeight;
@@ -237,7 +234,7 @@ class Showcaser {
         const element = this._args.element;
 
         if (element) {
-            const rect = this._lastPosition = element.getBoundingClientRect();
+            const rect = this._lastPosition = this._getElementPosition(element);
 
             // Element has no dimensions
             if (!this._isElementVisible(element)) {
@@ -253,7 +250,7 @@ class Showcaser {
                 this._showcaser.style.width = dimension + "px";
                 this._showcaser.style.height = dimension + "px";
 
-                let diff = rect.width > rect.height ? rect.width - rect.height : rect.height - rect.width;
+                const diff = rect.width > rect.height ? rect.width - rect.height : rect.height - rect.width;
 
                 // Height has changed, subtract the diff from top
                 if (rect.width > rect.height) {
@@ -274,19 +271,19 @@ class Showcaser {
             }
         }
 
-        // User-defined position
+        // User-defined text position
         if (options.position) {
             // Default is:
             // horizontal: "right"
             // vertical: "middle"
-            let position = options.position;
+            const position = options.position;
 
             const horizontal = position.horizontal || "right";
             const vertical = position.vertical || "middle";
 
             this._applyPositionStyling(vertical, horizontal);
         }
-        // Automatic positioning. Check that it doesn't bleed outside the viewport
+        // Automatic text positioning. Check that it doesn't bleed outside the viewport
         else {
             // Apply default positioning, before checking for bleed
             let vertical = "top";
@@ -294,7 +291,7 @@ class Showcaser {
 
             this._applyPositionStyling(vertical, horizontal);
 
-            let textElRect = this._textContainer.getBoundingClientRect();
+            const textElRect = this._getElementPosition(this._textContainer);
 
             // Vertical check: bleeds out from the top
             if (textElRect.top < 0) {
@@ -315,13 +312,11 @@ class Showcaser {
 
         this._container.style.opacity = "1";
 
-        this._setupCheckInterval();
+        this._setupCheckPositionInterval();
     }
 
     private static _applyPositionStyling(vertical: string, horizontal: string): void {
-        let baseClassName = "showcaser-text-container";
-
-        this._textContainer.className = `${baseClassName} ${vertical} ${horizontal}`;
+        this._textContainer.className = `showcase-text-container ${vertical} ${horizontal}`;
     }
 
     private static _trapBodyScroll(): void {
@@ -355,6 +350,10 @@ class Showcaser {
     }
 
     private static _sanitizeArgs(element: HTMLElement, text: string, options: IShowcaseOptions): IShowcaseArgs {
+        if (!(element instanceof HTMLElement)) {
+            throw new Error("Must specify a valid HTMLElement");
+        }
+
         if (!text) {
             throw new Error("Must specify text to showcase");
         }
