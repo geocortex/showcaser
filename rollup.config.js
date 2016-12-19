@@ -18,7 +18,7 @@ export default {
         postcss({
             plugins: [
                 autoprefixer(),
-                cssnano()
+                cssnano({ zindex: false })
             ],
             extensions: ['.css']
         }),
