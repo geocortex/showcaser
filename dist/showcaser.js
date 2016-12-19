@@ -449,7 +449,7 @@ var Showcaser = (function () {
         this._setupCheckPositionInterval();
     };
     Showcaser._applyPositionStyling = function (vertical, horizontal) {
-        this._textContainer.className = "showcase-text-container " + vertical + " " + horizontal;
+        this._textContainer.className = "showcaser-text-container " + vertical + " " + horizontal;
     };
     Showcaser._trapBodyScroll = function () {
         document.body.className += " showcaser-trap-scroll";

@@ -316,7 +316,7 @@ class Showcaser {
     }
 
     private static _applyPositionStyling(vertical: string, horizontal: string): void {
-        this._textContainer.className = `showcase-text-container ${vertical} ${horizontal}`;
+        this._textContainer.className = `showcaser-text-container ${vertical} ${horizontal}`;
     }
 
     private static _trapBodyScroll(): void {
