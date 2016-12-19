@@ -1,5 +1,5 @@
 function startShowcaser() {
-    Showcaser.showcase(null, "Welcome to the Showcaser demo<br><br> Take a look at <b><i>demo/scripts.js</i></b> to explore this demo's source code");
+    Showcaser.showcase(null, "Welcome to the Showcaser demo<br><br> Take a look at <b><i>docs/scripts.js</i></b> to explore this demo's source code");
 
     var demoUpdates = document.getElementById("demo-updates");
     Showcaser.showcase(
