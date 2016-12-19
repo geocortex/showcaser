@@ -22,7 +22,6 @@
 .showcaser {
     position: absolute;
     border: solid 1px #fff;
-    box-shadow: 0 0 0 99999px rgba(0, 0, 0, 0.65), inset 0 2px 16px rgba(0, 0, 0, .3);
 }
 
 .showcaser.full-screen {

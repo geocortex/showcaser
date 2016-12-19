@@ -88,6 +88,10 @@ class Showcaser {
         if (!args.element) {
             showcaser.className += " full-screen";
         }
+
+        const {backgroundColor} = args.options;
+        const shadowRGBA = `rgba(${backgroundColor.r},${backgroundColor.g},${backgroundColor.b},${backgroundColor.a})`;
+        showcaser.style.boxShadow = `0 0 0 99999px ${shadowRGBA}, inset 0 2px 16px rgba(0,0,0,.3)`;
         container.appendChild(showcaser);
 
         const textContainer = document.createElement("div");
@@ -350,16 +354,24 @@ class Showcaser {
     }
 
     private static _sanitizeArgs(element: HTMLElement, text: string, options: IShowcaseOptions): IShowcaseArgs {
-        if (!(element instanceof HTMLElement)) {
-            throw new Error("Must specify a valid HTMLElement");
-        }
-
         if (!text) {
             throw new Error("Must specify text to showcase");
         }
 
         if (!options) {
             options = {};
+        }
+
+        if (!options.backgroundColor) {
+            options.backgroundColor = {
+                r: 0,
+                g: 0,
+                b: 0,
+            };
+        }
+
+        if (!options.backgroundColor.a) {
+            options.backgroundColor.a = 0.65;
         }
 
         if (!options.shape) {
@@ -388,8 +400,16 @@ interface IShowcaseArgs {
     options?: IShowcaseOptions;
 }
 
+export interface IShowcaseBGColor {
+    r: number;
+    g: number;
+    b: number;
+    a?: number;
+}
+
 export interface IShowcaseOptions {
     allowSkip?: boolean;
+    backgroundColor?: IShowcaseBGColor;
     before?: () => void;
     buttonText?: string;
     close?: () => void;

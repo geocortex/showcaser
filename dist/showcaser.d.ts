@@ -4,8 +4,15 @@ declare class Showcaser {
     static skipAll(): void;
     static readonly queueLength: number;
 }
+export interface IShowcaseBGColor {
+    r: number;
+    g: number;
+    b: number;
+    a?: number;
+}
 export interface IShowcaseOptions {
     allowSkip?: boolean;
+    backgroundColor?: IShowcaseBGColor;
     before?: () => void;
     buttonText?: string;
     close?: () => void;
