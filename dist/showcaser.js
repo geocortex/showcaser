@@ -1,7 +1,7 @@
 (function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
-	typeof define === 'function' && define.amd ? define(factory) :
-	(global.Showcaser = factory());
+    typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+    typeof define === 'function' && define.amd ? define(factory) :
+    (global.Showcaser = factory());
 }(this, (function () { 'use strict';
 
 function __$styleInject(css, returnValue) {
@@ -20,181 +20,9 @@ function __$styleInject(css, returnValue) {
   head.appendChild(style);
   return returnValue;
 }
-__$styleInject(".showcaser-trap-scroll{overflow:hidden}.showcaser-container{position:absolute;opacity:0;top:0;left:0;bottom:0;right:0;z-index:1}.showcaser-container .showcaser-delay{-webkit-transition-property:opacity;transition-property:opacity;-webkit-transition-timing-function:ease-in-out;transition-timing-function:ease-in-out;-webkit-transition-duration:1s;transition-duration:1s;-webkit-transition-delay:1.5s;transition-delay:1.5s}.showcaser{position:absolute;border:1px solid #fff}.showcaser.full-screen{width:0;height:0;left:50%;top:50%;border:none}.showcaser-text-container{position:absolute;width:32em;max-width:75vw}.showcaser-text-container.right{left:100%;padding-left:2em}.showcaser-text-container.center{left:50%;-webkit-transform:translateX(-50%);transform:translateX(-50%);text-align:center}.showcaser-text-container.left{text-align:right;right:100%;padding-right:2em}.showcaser-text-container.bottom{top:100%;padding-top:2em}.showcaser-text-container.top{top:0;-webkit-transform:translateY(-100%);transform:translateY(-100%);padding-bottom:1em}.showcaser-text-container.middle{top:50%;-webkit-transform:translateY(-50%);transform:translateY(-50%)}.showcaser-text-container.center.middle{top:50%;left:50%;-webkit-transform:translate(-50%,-50%);transform:translate(-50%,-50%)}.showcaser-text-container.center.top{top:0;left:50%;-webkit-transform:translate(-50%,-100%);transform:translate(-50%,-100%)}.showcaser-text{color:#fff;font-size:1.2em;letter-spacing:.05em}.showcaser-button-container{position:relative;margin-top:.5em}.showcaser-button{background:0 0;border:none;border-radius:2px;color:#fff;position:relative;height:2.25em;line-height:2.25em;margin:0;min-width:4em;padding:0 1em;display:inline-block;font-family:Roboto,sans-serif;font-size:1em;font-weight:500;text-transform:uppercase;letter-spacing:0;overflow:hidden;will-change:box-shadow;-webkit-transition:box-shadow .2s cubic-bezier(.4,0,1,1),background-color .2s cubic-bezier(.4,0,.2,1),color .2s cubic-bezier(.4,0,.2,1);transition:box-shadow .2s cubic-bezier(.4,0,1,1),background-color .2s cubic-bezier(.4,0,.2,1),color .2s cubic-bezier(.4,0,.2,1);outline:none;cursor:pointer;text-decoration:none;text-align:center;vertical-align:middle}.showcaser-button:hover{background-color:hsla(0,0%,62%,.2)}.showcaser-button:focus:not(:active){background-color:rgba(0,0,0,.12)}.showcaser-button:active{background-color:hsla(0,0%,62%,.4)}.showcaser-skip{color:#fff;cursor:pointer;left:100%;bottom:.3em;margin-left:2em;white-space:nowrap;line-height:1.5;display:inline;font-size:.9em;vertical-align:middle}.showcaser-text-container.left .showcaser-skip{right:100%;left:auto}",undefined);
+__$styleInject(".showcaser-trap-scroll{overflow:hidden}.showcaser-container{position:fixed;opacity:0;top:0;left:0;bottom:0;right:0;z-index:9999999}.showcaser-container.showcaser-container-delay{-webkit-transition:opacity .25s ease-in-out;transition:opacity .25s ease-in-out}.showcaser{position:absolute;border:1px solid #fff}.showcaser.showcaser-full-screen{width:0;height:0;left:50%;top:50%;border:none}.showcaser-text-container{position:absolute;width:32em;max-width:75vw}.showcaser-text-container.right{left:100%;padding-left:2em}.showcaser-text-container.center{left:50%;-webkit-transform:translateX(-50%);transform:translateX(-50%);text-align:center}.showcaser-text-container.left{text-align:right;right:100%;padding-right:2em}.showcaser-text-container.bottom{top:100%;padding-top:2em}.showcaser-text-container.top{top:0;-webkit-transform:translateY(-100%);transform:translateY(-100%);padding-bottom:1em}.showcaser-text-container.middle{top:50%;-webkit-transform:translateY(-50%);transform:translateY(-50%)}.showcaser-text-container.center.middle{top:50%;left:50%;-webkit-transform:translate(-50%,-50%);transform:translate(-50%,-50%)}.showcaser-text-container.center.top{top:0;left:50%;-webkit-transform:translate(-50%,-100%);transform:translate(-50%,-100%)}.showcaser.showcaser-full-screen .showcaser-text-container{top:50%;left:50%;-webkit-transform:translate(-50%,-50%);transform:translate(-50%,-50%);text-align:center}.showcaser-text{color:#fff;font-size:1.2em;letter-spacing:.05em}.showcaser-button-container{position:relative;margin-top:1.5em}.showcaser-button{background:0 0;border:none;border-radius:2px;color:#fff;position:relative;height:2.25em;line-height:2.25em;margin:0;min-width:4em;padding:0 1em;display:inline-block;font-family:Roboto,sans-serif;font-size:1em;font-weight:500;text-transform:uppercase;letter-spacing:0;overflow:hidden;will-change:box-shadow;-webkit-transition:box-shadow .2s cubic-bezier(.4,0,1,1),background-color .2s cubic-bezier(.4,0,.2,1),color .2s cubic-bezier(.4,0,.2,1);transition:box-shadow .2s cubic-bezier(.4,0,1,1),background-color .2s cubic-bezier(.4,0,.2,1),color .2s cubic-bezier(.4,0,.2,1);outline:none;cursor:pointer;text-decoration:none;text-align:center;vertical-align:middle}.showcaser-button:hover{background-color:hsla(0,0%,62%,.2)}.showcaser-button:focus:not(:active){background-color:rgba(0,0,0,.12)}.showcaser-button:active{background-color:hsla(0,0%,62%,.4)}.showcaser-skip{color:#fff;cursor:pointer;left:100%;bottom:.3em;margin-left:2em;white-space:nowrap;line-height:1.5;display:inline;font-size:.9em;vertical-align:middle}.showcaser-text-container.left .showcaser-skip{right:100%;left:auto}",undefined);
 
-var commonjsGlobal = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
-
-
-
-
-
-function createCommonjsModule(fn, module) {
-	return module = { exports: {} }, fn(module, module.exports), module.exports;
-}
-
-var performanceNow = createCommonjsModule(function (module) {
-// Generated by CoffeeScript 1.7.1
-(function() {
-  var getNanoSeconds, hrtime, loadTime;
-
-  if ((typeof performance !== "undefined" && performance !== null) && performance.now) {
-    module.exports = function() {
-      return performance.now();
-    };
-  } else if ((typeof process !== "undefined" && process !== null) && process.hrtime) {
-    module.exports = function() {
-      return (getNanoSeconds() - loadTime) / 1e6;
-    };
-    hrtime = process.hrtime;
-    getNanoSeconds = function() {
-      var hr;
-      hr = hrtime();
-      return hr[0] * 1e9 + hr[1];
-    };
-    loadTime = getNanoSeconds();
-  } else if (Date.now) {
-    module.exports = function() {
-      return Date.now() - loadTime;
-    };
-    loadTime = Date.now();
-  } else {
-    module.exports = function() {
-      return new Date().getTime() - loadTime;
-    };
-    loadTime = new Date().getTime();
-  }
-
-}).call(commonjsGlobal);
-});
-
-var now = performanceNow;
-var root = typeof window === 'undefined' ? commonjsGlobal : window;
-var vendors = ['moz', 'webkit'];
-var suffix = 'AnimationFrame';
-var raf = root['request' + suffix];
-var caf = root['cancel' + suffix] || root['cancelRequest' + suffix];
-
-for(var i = 0; !raf && i < vendors.length; i++) {
-  raf = root[vendors[i] + 'Request' + suffix];
-  caf = root[vendors[i] + 'Cancel' + suffix]
-      || root[vendors[i] + 'CancelRequest' + suffix];
-}
-
-// Some versions of FF have rAF but not cAF
-if(!raf || !caf) {
-  var last = 0
-    , id = 0
-    , queue = []
-    , frameDuration = 1000 / 60;
-
-  raf = function(callback) {
-    if(queue.length === 0) {
-      var _now = now()
-        , next = Math.max(0, frameDuration - (_now - last));
-      last = next + _now;
-      setTimeout(function() {
-        var cp = queue.slice(0);
-        // Clear queue here to prevent
-        // callbacks from appending listeners
-        // to the current frame's queue
-        queue.length = 0;
-        for(var i = 0; i < cp.length; i++) {
-          if(!cp[i].cancelled) {
-            try{
-              cp[i].callback(last);
-            } catch(e) {
-              setTimeout(function() { throw e }, 0);
-            }
-          }
-        }
-      }, Math.round(next));
-    }
-    queue.push({
-      handle: ++id,
-      callback: callback,
-      cancelled: false
-    });
-    return id
-  };
-
-  caf = function(handle) {
-    for(var i = 0; i < queue.length; i++) {
-      if(queue[i].handle === handle) {
-        queue[i].cancelled = true;
-      }
-    }
-  };
-}
-
-var index = function(fn) {
-  // Wrap in a new function to prevent
-  // `cancel` potentially being assigned
-  // to the native rAF function
-  return raf.call(root, fn)
-};
-var cancel = function() {
-  caf.apply(root, arguments);
-};
-var polyfill = function() {
-  root.requestAnimationFrame = raf;
-  root.cancelAnimationFrame = caf;
-};
-
-index.cancel = cancel;
-index.polyfill = polyfill;
-
-function smoothscroll(scrollTo, scrollDuration, finishCallback) {
-    // Edited from: https://gist.github.com/joshcanhelp/a3a669df80898d4097a1e2c01dea52c1
-    var scrollAmount = 0;
-    if (typeof scrollTo === "string" || scrollTo instanceof Element) {
-        var scrollToObj = void 0;
-        if (typeof scrollTo === "string") {
-            // Assuming this is a selector we can use to find an element
-            scrollToObj = document.querySelector(scrollTo);
-        }
-        else {
-            scrollToObj = scrollTo;
-        }
-        if (scrollToObj && typeof scrollToObj.getBoundingClientRect === "function") {
-            scrollAmount = window.pageYOffset + scrollToObj.getBoundingClientRect().top;
-        }
-        else {
-            throw new Error("No element found with the selector \"" + scrollTo + "\"");
-        }
-    }
-    // Set a default for the duration
-    if (typeof scrollDuration !== "number" || scrollDuration < 0) {
-        scrollDuration = 500;
-    }
-    // Declarations
-    var cosParameter = (window.pageYOffset - scrollAmount) / 2;
-    var scrollCount = 0;
-    var oldTimestamp = window.performance.now();
-    var step = function (newTimestamp) {
-        var tsDiff = newTimestamp - oldTimestamp;
-        // Performance.now() polyfill loads late so passed-in timestamp is a larger offset
-        // on the first go-through than we want so I'm adjusting the difference down here.
-        // Regardless, we would rather have a slightly slower animation than a big jump so a good
-        // safeguard, even if we're not using the polyfill.
-        if (tsDiff > 100) {
-            tsDiff = 30;
-        }
-        scrollCount += Math.PI / (scrollDuration / tsDiff);
-        // As soon as we cross over Pi, we're about where we need to be
-        if (scrollCount >= Math.PI) {
-            if (finishCallback) {
-                finishCallback();
-            }
-            return;
-        }
-        var moveStep = Math.round(scrollAmount + cosParameter + cosParameter * Math.cos(scrollCount));
-        window.scrollTo(0, moveStep);
-        oldTimestamp = newTimestamp;
-        index(step);
-    };
-    index(step);
-}
-
+// import Smoothscroll from "./smoothscroll";
 var Showcaser = (function () {
     function Showcaser() {
     }
@@ -254,15 +82,14 @@ var Showcaser = (function () {
         this._isVisible = true;
         // Create all the DOM necessary to display the showcase
         var container = document.createElement("div");
-        var className = "showcaser-container";
-        if (args.options.longDelay) {
-            container.className = " showcaser-delay";
+        container.className = "showcaser-container";
+        if (args.options.fadeBackground) {
+            container.className += " showcaser-container-delay";
         }
-        container.className = className;
         var showcaser = document.createElement("div");
         showcaser.className = "showcaser";
         if (!args.element) {
-            showcaser.className += " full-screen";
+            showcaser.className += " showcaser-full-screen";
         }
         var backgroundColor = args.options.backgroundColor;
         var shadowRGBA = "rgba(" + backgroundColor.r + "," + backgroundColor.g + "," + backgroundColor.b + "," + backgroundColor.a + ")";
@@ -310,14 +137,25 @@ var Showcaser = (function () {
         var _this = this;
         if (this._args.options.positionTracker && this._args.element && !this._checkPositionIntervalToken) {
             this._checkPositionIntervalToken = setInterval(function () {
-                // TODO: Doesn't support resizing the window vertically if the element's top/bottom haven't changed.
-                // We should be smarter and check if it's still visible in the viewport
-                var newPosition = _this._getElementPosition(_this._args.element);
+                if (_this._isScrolling) {
+                    return;
+                }
+                var element = _this._args.element;
+                if (!element || !_this._isElementVisible(element)) {
+                    _this.close();
+                    return;
+                }
+                var newPosition = _this._getElementViewportPosition(element);
                 var lastPosition = _this._lastPosition;
+                var newViewportWidth = document.body.clientWidth;
+                var newViewportHeight = document.body.clientHeight;
+                // Check if size or position of element has changed since we last re-rendered
                 if (newPosition.top !== lastPosition.top ||
                     newPosition.right !== lastPosition.right ||
                     newPosition.bottom !== lastPosition.bottom ||
-                    newPosition.left !== lastPosition.left) {
+                    newPosition.left !== lastPosition.left ||
+                    newViewportWidth !== _this._lastViewportWidth ||
+                    newViewportHeight !== _this._lastViewportHeight) {
                     _this._scrollAndEnable();
                 }
             }, 200);
@@ -332,15 +170,20 @@ var Showcaser = (function () {
     Showcaser._isElementVisible = function (elem) {
         return !!(elem.offsetWidth || elem.offsetHeight || elem.getClientRects().length);
     };
-    Showcaser._getElementPosition = function (elem) {
+    Showcaser._getElementViewportPosition = function (elem) {
         return elem.getBoundingClientRect();
     };
+    Showcaser._getElementDocumentPosition = function (element) {
+        var rect = element.getBoundingClientRect();
+        var scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+        var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        return { top: rect.top + scrollTop, left: rect.left + scrollLeft };
+    };
     Showcaser._scrollAndEnable = function () {
-        var _this = this;
         if (this._args.element) {
             var element = this._args.element;
-            var rect = this._getElementPosition(element);
-            var offsetTop = rect.top;
+            // Position relative to the viewport
+            var rect = this._getElementViewportPosition(element);
             // Make sure element is visible
             if (!this._isElementVisible(element)) {
                 console.warn("Showcaser: Element not visible", this._args.element);
@@ -349,11 +192,9 @@ var Showcaser = (function () {
             }
             var windowScrollPosition = window.pageYOffset;
             var bufferPx = this._args.options.scrollBufferPx || 15;
-            var isElAboveViewport = offsetTop - bufferPx < windowScrollPosition;
-            var isElBelowViewport = offsetTop + bufferPx + rect.height >
-                windowScrollPosition + (window.innerHeight || document.documentElement.clientHeight);
-            var isScrolledToTop = window.pageYOffset === 0;
-            var isScrolledToBottom = (window.innerHeight + window.pageYOffset) >= document.body.offsetHeight;
+            var isElAboveViewport = rect.top - bufferPx < 0;
+            var isElBelowViewport = rect.top + bufferPx + rect.height >
+                (window.innerHeight || document.documentElement.clientHeight);
             // Check if we need to scroll page to be able to see the element. Scroll if necessary
             // We check the page's scroll position as we use a 'scrollBuffer' to give additional space
             // between the element and the viewport. If the page can't be scrolled, 
@@ -362,14 +203,27 @@ var Showcaser = (function () {
                 // Overflows above and below viewport ¯\_(ツ)_/¯
                 this._positionAndShow();
             }
-            else if (isElAboveViewport && !isScrolledToTop) {
-                var scrollAmount = offsetTop - bufferPx;
-                smoothscroll(scrollAmount, 500, function () { return _this._positionAndShow(); });
+            else if (isElAboveViewport) {
+                // this._isScrolling = true;
+                var elPosition = this._getElementDocumentPosition(element);
+                var scrollTo_1 = Math.max(elPosition.top - bufferPx, 0);
+                // Smoothscroll(scrollAmount, 500, () => {
+                //     this._isScrolling = false;
+                //     this._positionAndShow();
+                // });
+                window.scrollTo(0, scrollTo_1);
+                this._positionAndShow();
             }
-            else if (isElBelowViewport && !isScrolledToBottom) {
-                var scrollAmount = offsetTop - (window.innerHeight || document.documentElement.clientHeight)
-                    + rect.height + bufferPx;
-                smoothscroll(scrollAmount, 500, function () { return _this._positionAndShow(); });
+            else if (isElBelowViewport) {
+                // this._isScrolling = true;
+                var elPosition = this._getElementDocumentPosition(element);
+                var scrollTo_2 = Math.max(elPosition.top - bufferPx, 0);
+                // Smoothscroll(scrollAmount, 500, () => {
+                //     this._isScrolling = false;
+                //     this._positionAndShow();
+                // });
+                window.scrollTo(0, scrollTo_2);
+                this._positionAndShow();
             }
             else {
                 // Fully visible
@@ -389,7 +243,9 @@ var Showcaser = (function () {
         var options = this._args.options;
         var element = this._args.element;
         if (element) {
-            var rect = this._lastPosition = this._getElementPosition(element);
+            var rect = this._lastPosition = this._getElementViewportPosition(element);
+            this._lastViewportWidth = document.body.clientWidth;
+            this._lastViewportHeight = document.body.clientHeight;
             // Element has no dimensions
             if (!this._isElementVisible(element)) {
                 console.warn("Showcaser: Element not visible", this._args.element);
@@ -421,12 +277,8 @@ var Showcaser = (function () {
         }
         // User-defined text position
         if (options.position) {
-            // Default is:
-            // horizontal: "right"
-            // vertical: "middle"
-            var position = options.position;
-            var horizontal = position.horizontal || "right";
-            var vertical = position.vertical || "middle";
+            var horizontal = options.position.horizontal || "right";
+            var vertical = options.position.vertical || "middle";
             this._applyPositionStyling(vertical, horizontal);
         }
         else {
@@ -434,7 +286,7 @@ var Showcaser = (function () {
             var vertical = "top";
             var horizontal = "center";
             this._applyPositionStyling(vertical, horizontal);
-            var textElRect = this._getElementPosition(this._textContainer);
+            var textElRect = this._getElementViewportPosition(this._textContainer);
             // Vertical check: bleeds out from the top
             if (textElRect.top < 0) {
                 vertical = "bottom";
@@ -491,7 +343,10 @@ var Showcaser = (function () {
             };
         }
         if (!options.backgroundColor.a) {
-            options.backgroundColor.a = 0.65;
+            options.backgroundColor.a = 0.7;
+        }
+        if (typeof options.fadeBackground !== "boolean") {
+            options.fadeBackground = true;
         }
         if (!options.shape) {
             options.shape = "circle";

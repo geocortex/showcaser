@@ -1,5 +1,5 @@
 import "./showcaser.css";
-import Smoothscroll from "./smoothscroll";
+// import Smoothscroll from "./smoothscroll";
 
 class Showcaser {
     public static showcase(element: HTMLElement, text: string, options?: IShowcaseOptions): void {
@@ -68,7 +68,10 @@ class Showcaser {
     private static _textContainer: HTMLElement;
     private static _showcaseQueue: IShowcaseArgs[] = [];
     private static _isVisible: boolean;
+    private static _isScrolling: boolean;
     private static _lastPosition: ClientRect;
+    private static _lastViewportWidth: number;
+    private static _lastViewportHeight: number;
     private static _checkPositionIntervalToken: any;
 
     private static _start(args: IShowcaseArgs): void {
@@ -77,16 +80,15 @@ class Showcaser {
 
         // Create all the DOM necessary to display the showcase
         const container = document.createElement("div");
-        const className = "showcaser-container";
-        if (args.options.longDelay) {
-            container.className = " showcaser-delay";
+        container.className = "showcaser-container";
+        if (args.options.fadeBackground) {
+            container.className += " showcaser-container-delay";
         }
-        container.className = className;
 
         const showcaser = document.createElement("div");
         showcaser.className = "showcaser";
         if (!args.element) {
-            showcaser.className += " full-screen";
+            showcaser.className += " showcaser-full-screen";
         }
 
         const {backgroundColor} = args.options;
@@ -145,16 +147,30 @@ class Showcaser {
     private static _setupCheckPositionInterval(): void {
         if (this._args.options.positionTracker && this._args.element && !this._checkPositionIntervalToken) {
             this._checkPositionIntervalToken = setInterval(() => {
-                // TODO: Doesn't support resizing the window vertically if the element's top/bottom haven't changed.
-                // We should be smarter and check if it's still visible in the viewport
+                if (this._isScrolling) {
+                    return;
+                }
 
-                const newPosition = this._getElementPosition(this._args.element);
+                const {element} = this._args;
+
+                if (!element || !this._isElementVisible(element)) {
+                    this.close();
+                    return;
+                }
+
+                const newPosition = this._getElementViewportPosition(element);
                 const lastPosition = this._lastPosition;
 
+                const newViewportWidth = document.body.clientWidth;
+                const newViewportHeight = document.body.clientHeight;
+
+                // Check if size or position of element has changed since we last re-rendered
                 if (newPosition.top !== lastPosition.top ||
                     newPosition.right !== lastPosition.right ||
                     newPosition.bottom !== lastPosition.bottom ||
-                    newPosition.left !== lastPosition.left) {
+                    newPosition.left !== lastPosition.left ||
+                    newViewportWidth !== this._lastViewportWidth ||
+                    newViewportHeight !== this._lastViewportHeight) {
                     this._scrollAndEnable();
                 }
             }, 200);
@@ -172,16 +188,23 @@ class Showcaser {
         return !!(elem.offsetWidth || elem.offsetHeight || elem.getClientRects().length);
     }
 
-    private static _getElementPosition(elem: HTMLElement) {
+    private static _getElementViewportPosition(elem: HTMLElement) {
         return elem.getBoundingClientRect();
+    }
+
+    private static _getElementDocumentPosition(element: HTMLElement) {
+        const rect = element.getBoundingClientRect();
+        const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        return { top: rect.top + scrollTop, left: rect.left + scrollLeft };
     }
 
     private static _scrollAndEnable(): void {
         if (this._args.element) {
             const element = this._args.element;
-            const rect = this._getElementPosition(element);
 
-            const offsetTop = rect.top;
+            // Position relative to the viewport
+            const rect = this._getElementViewportPosition(element);
 
             // Make sure element is visible
             if (!this._isElementVisible(element)) {
@@ -193,12 +216,9 @@ class Showcaser {
             const windowScrollPosition = window.pageYOffset;
             const bufferPx = this._args.options.scrollBufferPx || 15;
 
-            const isElAboveViewport = offsetTop - bufferPx < windowScrollPosition;
-            const isElBelowViewport = offsetTop + bufferPx + rect.height >
-                windowScrollPosition + (window.innerHeight || document.documentElement.clientHeight);
-
-            const isScrolledToTop = window.pageYOffset === 0;
-            const isScrolledToBottom = (window.innerHeight + window.pageYOffset) >= document.body.offsetHeight;
+            const isElAboveViewport = rect.top - bufferPx < 0;
+            const isElBelowViewport = rect.top + bufferPx + rect.height >
+                (window.innerHeight || document.documentElement.clientHeight);
 
             // Check if we need to scroll page to be able to see the element. Scroll if necessary
             // We check the page's scroll position as we use a 'scrollBuffer' to give additional space
@@ -208,14 +228,31 @@ class Showcaser {
                 // Overflows above and below viewport ¯\_(ツ)_/¯
                 this._positionAndShow();
             }
-            else if (isElAboveViewport && !isScrolledToTop) {
-                const scrollAmount = offsetTop - bufferPx;
-                Smoothscroll(scrollAmount, 500, () => this._positionAndShow());
+            else if (isElAboveViewport) {
+                // this._isScrolling = true;
+
+                const elPosition = this._getElementDocumentPosition(element);
+
+                const scrollTo = Math.max(elPosition.top - bufferPx, 0);
+                // Smoothscroll(scrollAmount, 500, () => {
+                //     this._isScrolling = false;
+                //     this._positionAndShow();
+                // });
+                window.scrollTo(0, scrollTo);
+                this._positionAndShow();
             }
-            else if (isElBelowViewport && !isScrolledToBottom) {
-                const scrollAmount = offsetTop - (window.innerHeight || document.documentElement.clientHeight)
-                    + rect.height + bufferPx;
-                Smoothscroll(scrollAmount, 500, () => this._positionAndShow());
+            else if (isElBelowViewport) {
+                // this._isScrolling = true;
+
+                const elPosition = this._getElementDocumentPosition(element);
+
+                const scrollTo = Math.max(elPosition.top - bufferPx, 0);
+                // Smoothscroll(scrollAmount, 500, () => {
+                //     this._isScrolling = false;
+                //     this._positionAndShow();
+                // });
+                window.scrollTo(0, scrollTo);
+                this._positionAndShow();
             }
             else {
                 // Fully visible
@@ -238,7 +275,9 @@ class Showcaser {
         const element = this._args.element;
 
         if (element) {
-            const rect = this._lastPosition = this._getElementPosition(element);
+            const rect = this._lastPosition = this._getElementViewportPosition(element);
+            this._lastViewportWidth = document.body.clientWidth;
+            this._lastViewportHeight = document.body.clientHeight;
 
             // Element has no dimensions
             if (!this._isElementVisible(element)) {
@@ -277,13 +316,8 @@ class Showcaser {
 
         // User-defined text position
         if (options.position) {
-            // Default is:
-            // horizontal: "right"
-            // vertical: "middle"
-            const position = options.position;
-
-            const horizontal = position.horizontal || "right";
-            const vertical = position.vertical || "middle";
+            const horizontal = options.position.horizontal || "right";
+            const vertical = options.position.vertical || "middle";
 
             this._applyPositionStyling(vertical, horizontal);
         }
@@ -295,7 +329,7 @@ class Showcaser {
 
             this._applyPositionStyling(vertical, horizontal);
 
-            const textElRect = this._getElementPosition(this._textContainer);
+            const textElRect = this._getElementViewportPosition(this._textContainer);
 
             // Vertical check: bleeds out from the top
             if (textElRect.top < 0) {
@@ -371,7 +405,11 @@ class Showcaser {
         }
 
         if (!options.backgroundColor.a) {
-            options.backgroundColor.a = 0.65;
+            options.backgroundColor.a = 0.7;
+        }
+
+        if (typeof options.fadeBackground !== "boolean") {
+            options.fadeBackground = true;
         }
 
         if (!options.shape) {
@@ -413,7 +451,7 @@ export interface IShowcaseOptions {
     before?: () => void;
     buttonText?: string;
     close?: () => void;
-    longDelay?: boolean;
+    fadeBackground?: boolean;
     paddingPx?: number;
     position?: {
         horizontal: "right" | "center" | "left";

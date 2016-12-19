@@ -16,7 +16,7 @@ export interface IShowcaseOptions {
     before?: () => void;
     buttonText?: string;
     close?: () => void;
-    longDelay?: boolean;
+    fadeBackground?: boolean;
     paddingPx?: number;
     position?: {
         horizontal: "right" | "center" | "left";

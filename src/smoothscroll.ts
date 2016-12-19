@@ -21,6 +21,8 @@ function smoothscroll(scrollTo: number | string | Element, scrollDuration?: numb
         } else {
             throw new Error(`No element found with the selector "${scrollTo}"`);
         }
+    } else {
+        scrollAmount = scrollTo;
     }
 
     // Set a default for the duration
@@ -43,6 +45,8 @@ function smoothscroll(scrollTo: number | string | Element, scrollDuration?: numb
         if (tsDiff > 100) {
             tsDiff = 30;
         }
+
+        // TODO: Make this work when scrolling in either direction
 
         scrollCount += Math.PI / (scrollDuration / tsDiff);
 
