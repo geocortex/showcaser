@@ -1,7 +1,7 @@
 {
   "name": "showcaser",
-  "version": "0.1.0",
-  "description": "An implementation of the Material Design Showcase view that highlights any element on your page",
+  "version": "1.0.0",
+  "description": "A Material Design inspired showcase view that highlights any element on your page",
   "main": "dist/showcaser.js",
   "types": "dist/showcaser.d.ts",
   "scripts": {
