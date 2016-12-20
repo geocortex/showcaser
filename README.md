@@ -1,6 +1,6 @@
 # Showcaser
 
-[![Dependency Status](https://david-dm.org/latitudegeo/showcaser.svg)](https://david-dm.org/latitudegeo/showcaser)
+[![Dependency Status](https://david-dm.org/latitudegeo/showcaser.svg)](https://david-dm.org/latitudegeo/showcaser) [![npm version](https://badge.fury.io/js/showcaser.svg)](https://badge.fury.io/js/showcaser)
 
 A Material Design inspired showcase view that highlights any element on your page.
 
