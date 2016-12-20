@@ -1,18 +1,17 @@
 declare class Showcaser {
-    static showcase(element: HTMLElement, text: string, options?: IShowcaseOptions): void;
+    static showcase(text: string, element?: HTMLElement, options?: IShowcaseOptions): void;
     static close(): void;
     static skipAll(): void;
     static readonly queueLength: number;
 }
-export interface IShowcaseBGColor {
-    r: number;
-    g: number;
-    b: number;
-    a?: number;
-}
 export interface IShowcaseOptions {
     allowSkip?: boolean;
-    backgroundColor?: IShowcaseBGColor;
+    backgroundColor?: {
+        r: number;
+        g: number;
+        b: number;
+        a?: number;
+    };
     before?: () => void;
     buttonText?: string;
     close?: () => void;

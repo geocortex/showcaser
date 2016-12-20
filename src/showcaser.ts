@@ -2,7 +2,7 @@ import "./showcaser.css";
 // import Smoothscroll from "./smoothscroll";
 
 class Showcaser {
-    public static showcase(element: HTMLElement, text: string, options?: IShowcaseOptions): void {
+    public static showcase(text: string, element?: HTMLElement, options?: IShowcaseOptions): void {
         const args = this._sanitizeArgs(element, text, options);
 
         if (!args) {
@@ -438,16 +438,14 @@ interface IShowcaseArgs {
     options?: IShowcaseOptions;
 }
 
-export interface IShowcaseBGColor {
-    r: number;
-    g: number;
-    b: number;
-    a?: number;
-}
-
 export interface IShowcaseOptions {
     allowSkip?: boolean;
-    backgroundColor?: IShowcaseBGColor;
+    backgroundColor?: {
+        r: number;
+        g: number;
+        b: number;
+        a?: number;
+    };
     before?: () => void;
     buttonText?: string;
     close?: () => void;

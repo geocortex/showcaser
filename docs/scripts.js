@@ -1,10 +1,10 @@
 function startShowcaser() {
-    Showcaser.showcase(null, "Welcome to the Showcaser demo<br><br> Take a look at <b><i>docs/scripts.js</i></b> to explore this demo's source code");
+    Showcaser.showcase('Welcome to the Showcaser demo<br><br> Take a look at <b><i><a href="https://github.com/latitudegeo/showcaser/blob/master/docs/scripts.js" target="_blank">docs/scripts.js</a></i></b> to explore this demo\'s source code');
 
     var demoUpdates = document.getElementById("demo-updates");
     Showcaser.showcase(
-        demoUpdates,
         "Showcaser is <b>flexible</b><br><br>You can customize the background color...",
+        demoUpdates,
         {
             backgroundColor: {
                 r: 0,
@@ -17,8 +17,8 @@ function startShowcaser() {
 
     var demoOptions = document.getElementById("read-more");
     Showcaser.showcase(
-        demoOptions,
         "You can change the position of the text...",
+        demoOptions,
         {
             backgroundColor: {
                 r: 14,
@@ -34,8 +34,8 @@ function startShowcaser() {
 
     var pieChart = document.getElementById("pie-chart");
     Showcaser.showcase(
-        pieChart,
         "Or even the shape!",
+        pieChart,
         {
             backgroundColor: {
                 r: 132,
@@ -52,8 +52,8 @@ function startShowcaser() {
 
     var graph = document.getElementById("graph");
     Showcaser.showcase(
-        graph,
         "Showcaser can even track elements as they move around the page!<br><br><b>Try resizing the browser window!</b>",
+        graph,
         {
             backgroundColor: {
                 r: 0,

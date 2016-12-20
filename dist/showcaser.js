@@ -26,7 +26,7 @@ __$styleInject(".showcaser-trap-scroll{overflow:hidden}.showcaser-container{posi
 var Showcaser = (function () {
     function Showcaser() {
     }
-    Showcaser.showcase = function (element, text, options) {
+    Showcaser.showcase = function (text, element, options) {
         var args = this._sanitizeArgs(element, text, options);
         if (!args) {
             // Sanitizing failed. Can't continue on with this part of the showcase
