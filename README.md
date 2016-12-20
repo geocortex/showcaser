@@ -33,7 +33,7 @@ Check out the [demo source code](docs/scripts.js) for more examples:
 ```javascript
 const myElement = document.getElementById("cool-element");
 
-Showcaser.showcase(myElement, "Here's Showcaser!");
+Showcaser.showcase("Here's Showcaser!", myElement);
 ```
 
 ## API
