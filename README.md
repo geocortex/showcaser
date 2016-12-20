@@ -40,7 +40,7 @@ Showcaser.showcase(myElement, "Here's Showcaser!");
 
 ### Methods
 
-This document uses Typescript-like definitions to describe interaces. You can take a look at our Typescript definition file at [dist/showcaser.d.ts](dist/showcaser.d.ts).
+This document uses Typescript-like definitions to describe interfaces. You can take a look at our Typescript definition file at [dist/showcaser.d.ts](dist/showcaser.d.ts).
 
 #### Start showcase
 Showcaser allows you to link multiple showcase steps together using a 'queue' concept. If there is currently a showcase being displayed, subsequent calls to `Showcaser.showcase()` will add the new showcase step to an internal queue. Closing a showcase step using the 'next' button will cause the next showcase step to be popped off the queue and displayed to the user, until there are no more items left in the queue.
