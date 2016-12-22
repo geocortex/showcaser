@@ -101,7 +101,7 @@ BackgroundColor (defaults to dark gray):
 
 Example:
 ```js
-Showcaser.showcase(element, "I'm green!", {
+Showcaser.showcase("I'm green!", element, {
     backgroundColor: {
         r: 0,
         g: 132,
@@ -123,7 +123,7 @@ Position:
 
 Example
 ```js
-Showcaser.showcase(element, "I'm on the left!", {
+Showcaser.showcase("I'm on the left!", element, {
     position: {
         horizontal: "left",
         vertical: "middle"
