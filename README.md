@@ -87,15 +87,16 @@ Showcaser.queueLength: number;
 | `shape`           | `string`   | `circle`    | Either `circle` or `rectangle`             |
 
 #### BackgroundColor
-You can configure the background color of your showcase by using the `backgroundColor` option on the [ShowcaseOptions](#showcaseoptions). The background color consists of 4 parameters making up a `rgba` color. The alpha channel (`a`) is optional and defaults to `0.7`
+You can configure the background color of your showcase by using the `backgroundColor` option on the [ShowcaseOptions](#showcaseoptions). The background color can be specified either using `r, g, b` or `hex`. The alpha channel (`a`) is optional and defaults to `0.7`.
 
 BackgroundColor (defaults to dark gray):
 ```js
 {
-    r: number;
-    g: number;
-    b: number;
+    r?: number;
+    g?: number;
+    b?: number;
     a?: number;
+    hex?: string;
 }
 ```
 
@@ -106,6 +107,13 @@ Showcaser.showcase("I'm green!", element, {
         r: 0,
         g: 132,
         b: 10
+    }
+});
+
+Showcaser.showcase("I'm blue!", element, {
+    backgroundColor: {
+        hex: "#2196F3",
+        a: 0.5
     }
 });
 ```
