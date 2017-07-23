@@ -369,6 +369,9 @@ class Showcaser {
         if (args.options.before) {
             args.options.before();
         }
+        
+        // Remove focus on active element.
+        document.activeElement.blur();
 
         this._start(args);
     }
