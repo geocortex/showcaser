@@ -36,17 +36,17 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "autoprefixer": "^6.5.4",
-    "copyfiles": "^1.0.0",
-    "cssnano": "^3.9.1",
-    "raf": "^3.3.0",
-    "rimraf": "^2.5.4",
-    "rollup": "^0.37.0",
-    "rollup-plugin-commonjs": "^6.0.0",
-    "rollup-plugin-node-resolve": "^2.0.0",
-    "rollup-plugin-postcss": "^0.2.0",
-    "tslint": "^4.0.2",
-    "typescript": "^2.1.4",
-    "uglify-js": "^2.7.5"
+    "autoprefixer": "^7.1.2",
+    "copyfiles": "^1.2.0",
+    "cssnano": "^3.10.0",
+    "raf": "^3.3.2",
+    "rimraf": "^2.6.1",
+    "rollup": "^0.45.2",
+    "rollup-plugin-commonjs": "^8.0.2",
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-plugin-postcss": "^0.5.3",
+    "tslint": "^5.5.0",
+    "typescript": "^2.4.2",
+    "uglify-js": "^3.0.25"
   }
 }
