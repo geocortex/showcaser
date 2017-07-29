@@ -1,17 +1,17 @@
 declare class Showcaser {
-    static showcase(text: string, element?: HTMLElement, options?: IShowcaseOptions): void;
+    static showcase(
+        text: string,
+        element?: HTMLElement,
+        options?: IShowcaseOptions
+    ): void;
     static close(): void;
     static skipAll(): void;
     static readonly queueLength: number;
 }
+
 export interface IShowcaseOptions {
     allowSkip?: boolean;
-    backgroundColor?: {
-        r: number;
-        g: number;
-        b: number;
-        a?: number;
-    };
+    backgroundColor?: IShowcaseBgColor;
     before?: () => void;
     buttonText?: string;
     close?: () => void;
@@ -26,5 +26,13 @@ export interface IShowcaseOptions {
     skipText?: string;
     skip?: () => void;
     shape?: "circle" | "rectangle";
+}
+
+export interface IShowcaseBgColor {
+    r?: number;
+    g?: number;
+    b?: number;
+    hex?: string;
+    a?: number;
 }
 export default Showcaser;

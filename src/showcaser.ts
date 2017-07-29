@@ -2,7 +2,11 @@ import "./showcaser.css";
 // import Smoothscroll from "./smoothscroll";
 
 class Showcaser {
-    public static showcase(text: string, element?: HTMLElement, options?: IShowcaseOptions): void {
+    public static showcase(
+        text: string,
+        element?: HTMLElement,
+        options?: IShowcaseOptions
+    ): void {
         const args = this._sanitizeArgs(element, text, options);
 
         if (!args) {
@@ -12,8 +16,7 @@ class Showcaser {
 
         if (this._isVisible || this._showcaseQueue.length) {
             this._showcaseQueue.push(args);
-        }
-        else {
+        } else {
             this._startShowcase(args);
         }
     }
@@ -91,8 +94,7 @@ class Showcaser {
             showcaser.className += " showcaser-full-screen";
         }
 
-        const {backgroundColor} = args.options;
-        const shadowRGBA = `rgba(${backgroundColor.r},${backgroundColor.g},${backgroundColor.b},${backgroundColor.a})`;
+        const shadowRGBA = this._getRgbaFromArgs(args.options.backgroundColor);
         showcaser.style.boxShadow = `0 0 0 99999px ${shadowRGBA}, inset 0 2px 16px rgba(0,0,0,.3)`;
         container.appendChild(showcaser);
 
@@ -109,15 +111,20 @@ class Showcaser {
         textContainer.appendChild(buttonContainer);
 
         const showcaserButton = document.createElement("button");
-        showcaserButton.className = "showcaser-button waves-effect waves-light btn";
+        showcaserButton.className =
+            "showcaser-button waves-effect waves-light btn";
         showcaserButton.textContent = args.options.buttonText;
-        showcaserButton.onclick = event => { this._nextButtonClick(event); };
+        showcaserButton.onclick = event => {
+            this._nextButtonClick(event);
+        };
         buttonContainer.appendChild(showcaserButton);
 
         if (args.options.allowSkip) {
             const skipButton = document.createElement("div");
             skipButton.className = "showcaser-skip";
-            skipButton.onclick = event => { this._skipClick(event); };
+            skipButton.onclick = event => {
+                this._skipClick(event);
+            };
             skipButton.textContent = args.options.skipText || "Skip";
             buttonContainer.appendChild(skipButton);
         }
@@ -125,7 +132,8 @@ class Showcaser {
         // Adding a border-radius breaks the box-shadow background on Safari for handheld/tablet and Mac
         if (!this._isSafari()) {
             // TODO: Use CSS class instead of inline style
-            const radiusString = (args.options.shape === "circle" ? "50%" : "5px");
+            const radiusString =
+                args.options.shape === "circle" ? "50%" : "5px";
             showcaser.style.borderRadius = radiusString;
         }
 
@@ -139,19 +147,47 @@ class Showcaser {
         this._scrollAndEnable();
     }
 
+    private static _getRgbaFromArgs(bgColor: IShowcaseBgColor) {
+        let r = bgColor.r;
+        let g = bgColor.g;
+        let b = bgColor.b;
+        let a = bgColor.a;
+
+        if (bgColor.hex) {
+            [r, g, b] = bgColor.hex
+                .replace(
+                    /^#?([a-f\d])([a-f\d])([a-f\d])$/i,
+                    (m, r, g, b) => "#" + r + r + g + g + b + b
+                )
+                .substring(1)
+                .match(/.{2}/g)
+                .map(x => parseInt(x, 16));
+        }
+
+        return `rgba(${r},${g},${b},${a})`;
+    }
+
     private static _isSafari(): boolean {
-        return navigator.vendor && navigator.vendor.indexOf("Apple") > -1 &&
-            navigator.userAgent && !navigator.userAgent.match("CriOS");
+        return (
+            navigator.vendor &&
+            navigator.vendor.indexOf("Apple") > -1 &&
+            navigator.userAgent &&
+            !navigator.userAgent.match("CriOS")
+        );
     }
 
     private static _setupCheckPositionInterval(): void {
-        if (this._args.options.positionTracker && this._args.element && !this._checkPositionIntervalToken) {
+        if (
+            this._args.options.positionTracker &&
+            this._args.element &&
+            !this._checkPositionIntervalToken
+        ) {
             this._checkPositionIntervalToken = setInterval(() => {
                 if (this._isScrolling) {
                     return;
                 }
 
-                const {element} = this._args;
+                const { element } = this._args;
 
                 if (!element || !this._isElementVisible(element)) {
                     this.close();
@@ -165,12 +201,14 @@ class Showcaser {
                 const newViewportHeight = document.body.clientHeight;
 
                 // Check if size or position of element has changed since we last re-rendered
-                if (newPosition.top !== lastPosition.top ||
+                if (
+                    newPosition.top !== lastPosition.top ||
                     newPosition.right !== lastPosition.right ||
                     newPosition.bottom !== lastPosition.bottom ||
                     newPosition.left !== lastPosition.left ||
                     newViewportWidth !== this._lastViewportWidth ||
-                    newViewportHeight !== this._lastViewportHeight) {
+                    newViewportHeight !== this._lastViewportHeight
+                ) {
                     this._scrollAndEnable();
                 }
             }, 200);
@@ -185,7 +223,11 @@ class Showcaser {
     }
 
     private static _isElementVisible(elem: HTMLElement) {
-        return !!(elem.offsetWidth || elem.offsetHeight || elem.getClientRects().length);
+        return !!(
+            elem.offsetWidth ||
+            elem.offsetHeight ||
+            elem.getClientRects().length
+        );
     }
 
     private static _getElementViewportPosition(elem: HTMLElement) {
@@ -194,8 +236,10 @@ class Showcaser {
 
     private static _getElementDocumentPosition(element: HTMLElement) {
         const rect = element.getBoundingClientRect();
-        const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const scrollLeft =
+            window.pageXOffset || document.documentElement.scrollLeft;
+        const scrollTop =
+            window.pageYOffset || document.documentElement.scrollTop;
         return { top: rect.top + scrollTop, left: rect.left + scrollLeft };
     }
 
@@ -208,7 +252,10 @@ class Showcaser {
 
             // Make sure element is visible
             if (!this._isElementVisible(element)) {
-                console.warn("Showcaser: Element not visible", this._args.element);
+                console.warn(
+                    "Showcaser: Element not visible",
+                    this._args.element
+                );
                 this.close();
                 return;
             }
@@ -217,18 +264,18 @@ class Showcaser {
             const bufferPx = this._args.options.scrollBufferPx || 15;
 
             const isElAboveViewport = rect.top - bufferPx < 0;
-            const isElBelowViewport = rect.top + bufferPx + rect.height >
+            const isElBelowViewport =
+                rect.top + bufferPx + rect.height >
                 (window.innerHeight || document.documentElement.clientHeight);
 
             // Check if we need to scroll page to be able to see the element. Scroll if necessary
             // We check the page's scroll position as we use a 'scrollBuffer' to give additional space
-            // between the element and the viewport. If the page can't be scrolled, 
+            // between the element and the viewport. If the page can't be scrolled,
             // there's no reason to wait 500ms.
             if (isElAboveViewport && isElBelowViewport) {
                 // Overflows above and below viewport ¯\_(ツ)_/¯
                 this._positionAndShow();
-            }
-            else if (isElAboveViewport) {
+            } else if (isElAboveViewport) {
                 // this._isScrolling = true;
 
                 const elPosition = this._getElementDocumentPosition(element);
@@ -240,8 +287,7 @@ class Showcaser {
                 // });
                 window.scrollTo(0, scrollTo);
                 this._positionAndShow();
-            }
-            else if (isElBelowViewport) {
+            } else if (isElBelowViewport) {
                 // this._isScrolling = true;
 
                 const elPosition = this._getElementDocumentPosition(element);
@@ -253,13 +299,11 @@ class Showcaser {
                 // });
                 window.scrollTo(0, scrollTo);
                 this._positionAndShow();
-            }
-            else {
+            } else {
                 // Fully visible
                 this._positionAndShow();
             }
-        }
-        else {
+        } else {
             this._positionAndShow();
         }
     }
@@ -275,42 +319,62 @@ class Showcaser {
         const element = this._args.element;
 
         if (element) {
-            const rect = this._lastPosition = this._getElementViewportPosition(element);
+            const rect = (this._lastPosition = this._getElementViewportPosition(
+                element
+            ));
             this._lastViewportWidth = document.body.clientWidth;
             this._lastViewportHeight = document.body.clientHeight;
 
             // Element has no dimensions
             if (!this._isElementVisible(element)) {
-                console.warn("Showcaser: Element not visible", this._args.element);
+                console.warn(
+                    "Showcaser: Element not visible",
+                    this._args.element
+                );
                 this.close();
                 return;
             }
 
-            const padding = typeof options.paddingPx !== "undefined" ? options.paddingPx : 20;
+            const padding =
+                typeof options.paddingPx !== "undefined"
+                    ? options.paddingPx
+                    : 20;
 
             if (options.shape === "circle") {
-                const dimension = Math.round(rect.width > rect.height ? rect.width : rect.height) + padding;
+                const dimension =
+                    Math.round(
+                        rect.width > rect.height ? rect.width : rect.height
+                    ) + padding;
                 this._showcaser.style.width = dimension + "px";
                 this._showcaser.style.height = dimension + "px";
 
-                const diff = rect.width > rect.height ? rect.width - rect.height : rect.height - rect.width;
+                const diff =
+                    rect.width > rect.height
+                        ? rect.width - rect.height
+                        : rect.height - rect.width;
 
                 // Height has changed, subtract the diff from top
                 if (rect.width > rect.height) {
-                    this._showcaser.style.top = Math.round(rect.top - diff / 2 - padding / 2) + "px";
-                    this._showcaser.style.left = Math.round(rect.left - padding / 2) + "px";
+                    this._showcaser.style.top =
+                        Math.round(rect.top - diff / 2 - padding / 2) + "px";
+                    this._showcaser.style.left =
+                        Math.round(rect.left - padding / 2) + "px";
+                } else {
+                    // Width has changed, subtract the diff from left
+                    this._showcaser.style.top =
+                        Math.round(rect.top - padding / 2) + "px";
+                    this._showcaser.style.left =
+                        Math.round(rect.left - diff / 2 - padding / 2) + "px";
                 }
-                // Width has changed, subtract the diff from left
-                else {
-                    this._showcaser.style.top = Math.round(rect.top - padding / 2) + "px";
-                    this._showcaser.style.left = Math.round(rect.left - diff / 2 - padding / 2) + "px";
-                }
-            }
-            else if (options.shape === "rectangle") {
-                this._showcaser.style.width = Math.round(rect.width + padding) + "px";
-                this._showcaser.style.height = Math.round(rect.height + padding) + "px";
-                this._showcaser.style.top = Math.round(rect.top - padding / 2) + "px";
-                this._showcaser.style.left = Math.round(rect.left - padding / 2) + "px";
+            } else if (options.shape === "rectangle") {
+                this._showcaser.style.width =
+                    Math.round(rect.width + padding) + "px";
+                this._showcaser.style.height =
+                    Math.round(rect.height + padding) + "px";
+                this._showcaser.style.top =
+                    Math.round(rect.top - padding / 2) + "px";
+                this._showcaser.style.left =
+                    Math.round(rect.left - padding / 2) + "px";
             }
         }
 
@@ -320,16 +384,17 @@ class Showcaser {
             const vertical = options.position.vertical || "middle";
 
             this._applyPositionStyling(vertical, horizontal);
-        }
-        // Automatic text positioning. Check that it doesn't bleed outside the viewport
-        else {
+        } else {
+            // Automatic text positioning. Check that it doesn't bleed outside the viewport
             // Apply default positioning, before checking for bleed
             let vertical = "top";
             let horizontal = "center";
 
             this._applyPositionStyling(vertical, horizontal);
 
-            const textElRect = this._getElementViewportPosition(this._textContainer);
+            const textElRect = this._getElementViewportPosition(
+                this._textContainer
+            );
 
             // Vertical check: bleeds out from the top
             if (textElRect.top < 0) {
@@ -337,11 +402,13 @@ class Showcaser {
             }
 
             // Horizontal check: bleeds out from the right
-            if (textElRect.left + textElRect.width > document.body.clientWidth) {
+            if (
+                textElRect.left + textElRect.width >
+                document.body.clientWidth
+            ) {
                 horizontal = "left";
-            }
-            // Horizontal check: bleeds out from the left
-            else if (textElRect.left < 0) {
+            } else if (textElRect.left < 0) {
+                // Horizontal check: bleeds out from the left
                 horizontal = "right";
             }
 
@@ -353,7 +420,10 @@ class Showcaser {
         this._setupCheckPositionInterval();
     }
 
-    private static _applyPositionStyling(vertical: string, horizontal: string): void {
+    private static _applyPositionStyling(
+        vertical: string,
+        horizontal: string
+    ): void {
         this._textContainer.className = `showcaser-text-container ${vertical} ${horizontal}`;
     }
 
@@ -362,7 +432,10 @@ class Showcaser {
     }
 
     private static _releaseTrappedBodyScroll(): void {
-        document.body.className = document.body.className.replace(/(?:^|\s)showcaser-trap-scroll(?!\S)/g, "");
+        document.body.className = document.body.className.replace(
+            /(?:^|\s)showcaser-trap-scroll(?!\S)/g,
+            ""
+        );
     }
 
     private static _startShowcase(args: IShowcaseArgs): void {
@@ -390,7 +463,11 @@ class Showcaser {
         return false;
     }
 
-    private static _sanitizeArgs(element: HTMLElement, text: string, options: IShowcaseOptions): IShowcaseArgs {
+    private static _sanitizeArgs(
+        element: HTMLElement,
+        text: string,
+        options: IShowcaseOptions
+    ): IShowcaseArgs {
         if (!text) {
             throw new Error("Must specify text to showcase");
         }
@@ -443,12 +520,7 @@ interface IShowcaseArgs {
 
 export interface IShowcaseOptions {
     allowSkip?: boolean;
-    backgroundColor?: {
-        r: number;
-        g: number;
-        b: number;
-        a?: number;
-    };
+    backgroundColor?: IShowcaseBgColor;
     before?: () => void;
     buttonText?: string;
     close?: () => void;
@@ -463,6 +535,14 @@ export interface IShowcaseOptions {
     skipText?: string;
     skip?: () => void;
     shape?: "circle" | "rectangle";
+}
+
+export interface IShowcaseBgColor {
+    r?: number;
+    g?: number;
+    b?: number;
+    a?: number;
+    hex?: string;
 }
 
 export default Showcaser;
